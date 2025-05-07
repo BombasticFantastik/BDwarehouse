@@ -1,6 +1,6 @@
 import sys
 
-from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,QLineEdit,QTableWidget
+from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,QLineEdit,QTableWidget,QTableWidgetItem
 from sqlalchemy import create_engine,Column,Integer,String,Float,Table,MetaData,insert,delete,update,text
 
 class Warehouse_window(QWidget):
@@ -143,5 +143,20 @@ class Warehouse_window(QWidget):
     def remove(self):
         self.connection.execute(f"DELETE FROM products WHERE product_id={self.id_input.text}")
     def select(self):
-        a=self.connection.execute(text('SELECT * FROM products'))
-        print(1)
+        data=self.connection.execute(text('SELECT * FROM products'))
+        self.show_table(data)
+        
+    def show_table(self,data):
+        data=[row for row in data]
+        for i in range(len(data)):
+            prod_id=QTableWidgetItem(str(data[i].product_id))
+            prod_name=QTableWidgetItem(str(data[i].product_name))
+            sup_id=QTableWidgetItem(str(data[i].supplier_id))
+            cat_id=QTableWidgetItem(str(data[i].category_id))
+            self.table.setItem(i,0,prod_id)
+            self.table.setItem(i,1,prod_name)
+            self.table.setItem(i,2,sup_id)
+            self.table.setItem(i,3,cat_id)
+        self.table.show()
+            
+
