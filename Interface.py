@@ -1,20 +1,26 @@
 import sys
-from PyQt6.QtWidgets import QApplication
-from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,QLineEdit
 
+from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,QLineEdit,QTableWidget
+from sqlalchemy import create_engine,Column,Integer,String,Float,Table,MetaData,insert,delete,update
 
-class Third_Window(QWidget):
-    def __init__(self):
+class Warehouse_window(QWidget):
+    def __init__(self,engine):
         super().__init__()
-        
+        self.engine=engine
         self.setWindowTitle("Warehouse")
         self.setGeometry(256, 256, 512, 256)
+
+        #table
+        self.table = QTableWidget()
+        self.table.setFixedSize(500,500)
+        self.table.setRowCount(50)
+        self.table.setColumnCount(10)
 
         #id/name
 
         self.p_label=QLabel('id:')
         self.g_label=QLabel('name:')
-        self.p_input=QLineEdit()
+        self.id_input=QLineEdit()
         self.g_input=QLineEdit()
 
         #sup/cat_id
@@ -44,12 +50,13 @@ class Third_Window(QWidget):
         #Добавить/Удалить/Найти
         self.button_get_A = QPushButton("Добавить", self)
         self.button_get_B = QPushButton("Удалить", self)
+        self.select_button=QPushButton('Выбрать',self)
 
 
         #левый
         left_layout = QVBoxLayout()
         left_layout.addWidget(self.p_label)
-        left_layout.addWidget(self.p_input)
+        left_layout.addWidget(self.id_input)
 
         left_layout.addWidget(self.a_label)
         left_layout.addWidget(self.a_input)
@@ -64,9 +71,6 @@ class Third_Window(QWidget):
         left_layout.addWidget(self.reor_input_left)
 
         left_layout.addWidget(self.button_get_A)
-
-
-        
 
         #правый
         right_layout = QVBoxLayout()
@@ -84,16 +88,25 @@ class Third_Window(QWidget):
         
         right_layout.addWidget(self.disc_label_right)
         right_layout.addWidget(self.disc_input_right)
-        
 
         right_layout.addWidget(self.button_get_B)
+
+        #table
+        table_layout = QVBoxLayout()
+        table_layout.addWidget(self.table)
+
+        table_layout.addWidget(self.select_button)
 
 
         main_layout = QHBoxLayout()
         main_layout.addLayout(left_layout)
         main_layout.addLayout(right_layout)
+        main_layout.addLayout(table_layout)
         self.setLayout(main_layout)
-app = QApplication(sys.argv)
-window = Third_Window()
-window.show()
-sys.exit(app.exec())
+
+    def add(self):
+        self.engine.execute(f"INSERT INTO products VALUES ({self.id_input.text},{self.g_input.text},{self.a_input.text},{self.b_input.text},{self.A_input.text},{self.B_input.text},{self.K_input_left.text},{self.K_input_right.text})")
+    def delete(self):
+        self.engine.execute(f"DELETE FROM products WHERE id={self.id.text}")
+    def select(self):
+        self.engine.execute(f"")

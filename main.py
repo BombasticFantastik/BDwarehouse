@@ -1,12 +1,18 @@
-from sqlalchemy import create_engine,Column,Integer,String,Float,Table,MetaData,insert,delete,update
+from sqlalchemy import create_engine
 import psycopg2
-import abc
+from PyQt6.QtWidgets import QApplication
+from Interface import Warehouse_window
+import sys
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import declarative_base
 
 
 
-engine=create_engine('postgresql+psycopg2://postgres:12345@localhost/pis_base')
+engine=create_engine('postgresql+psycopg2://postgres:12345@localhost/Norwind')
 engine.connect()
+#metadata = MetaData()
 
-metadata = MetaData()
+app = QApplication(sys.argv)
+window = Warehouse_window(engine)
+window.show()
+sys.exit(app.exec())
