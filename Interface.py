@@ -16,6 +16,18 @@ class Warehouse_window(QWidget):
         self.table.setFixedSize(1050,387)
         self.table.setRowCount(50)
         self.table.setColumnCount(10)
+        self.table.setHorizontalHeaderLabels([
+            'product_id',
+            'product_name',
+            'supplier_id',
+            'category_id',
+            'quantity_per_unit',
+            'unit_price',
+            'units_in_stock',
+            'units_on_order',
+            'reorder_level',
+            'discontinued'
+        ])
 
         #id/name
 
@@ -153,10 +165,24 @@ class Warehouse_window(QWidget):
             prod_name=QTableWidgetItem(str(data[i].product_name))
             sup_id=QTableWidgetItem(str(data[i].supplier_id))
             cat_id=QTableWidgetItem(str(data[i].category_id))
+            quant=QTableWidgetItem(str(data[i].quantity_per_unit))
+            price=QTableWidgetItem(str(data[i].unit_price))
+            in_stock=QTableWidgetItem(str(data[i].units_in_stock))
+            on_order=QTableWidgetItem(str(data[i].units_on_order))
+            level=QTableWidgetItem(str(data[i].reorder_level))
+            disc=QTableWidgetItem(str(data[i].discontinued))
+
             self.table.setItem(i,0,prod_id)
             self.table.setItem(i,1,prod_name)
             self.table.setItem(i,2,sup_id)
             self.table.setItem(i,3,cat_id)
+            self.table.setItem(i,4,quant)
+            self.table.setItem(i,5,price)
+            self.table.setItem(i,6,in_stock)
+            self.table.setItem(i,7,on_order)
+            self.table.setItem(i,8,level)
+            self.table.setItem(i,9,disc)
+
         self.table.show()
             
 
