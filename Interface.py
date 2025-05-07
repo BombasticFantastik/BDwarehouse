@@ -8,11 +8,12 @@ class Warehouse_window(QWidget):
         super().__init__()
         self.engine=engine
         self.setWindowTitle("Warehouse")
-        self.setGeometry(256, 256, 512, 256)
+        #self.setGeometry(256, 256, 512, 256)
+        self.setFixedSize(1280,500)
 
         #table
         self.table = QTableWidget()
-        self.table.setFixedSize(500,500)
+        self.table.setFixedSize(1050,387)
         self.table.setRowCount(50)
         self.table.setColumnCount(10)
 
@@ -22,6 +23,7 @@ class Warehouse_window(QWidget):
         self.g_label=QLabel('name:')
         self.id_input=QLineEdit()
         self.g_input=QLineEdit()
+
 
         #sup/cat_id
         self.a_label=QLabel('sup_id:')
@@ -52,6 +54,32 @@ class Warehouse_window(QWidget):
         self.button_get_B = QPushButton("Удалить", self)
         self.select_button=QPushButton('Выбрать',self)
 
+        #задаём размеры
+
+
+        self.p_label.setFixedSize(50,20)
+        self.g_label.setFixedSize(50,20)
+        self.a_label.setFixedSize(50,20)
+        self.b_label.setFixedSize(50,20)
+        self.A_label.setFixedSize(50,20)
+        self.B_label.setFixedSize(50,20)
+        self.K_label_left.setFixedSize(50,20)
+        self.K_label_right.setFixedSize(50,20)
+        self.reor_label_left.setFixedSize(50,20)
+        self.disc_label_right.setFixedSize(50,20)
+        
+
+        self.id_input.setFixedSize(100,35)
+        self.g_input.setFixedSize(100,35)
+        self.a_input.setFixedSize(100,35)
+        self.b_input.setFixedSize(100,35)
+        self.A_input.setFixedSize(100,35)
+        self.B_input.setFixedSize(100,35)
+        self.K_input_left.setFixedSize(100,35)
+        self.K_input_right.setFixedSize(100,35)
+        self.reor_input_left.setFixedSize(100,35)
+        self.disc_input_right.setFixedSize(100,35)
+
 
         #левый
         left_layout = QVBoxLayout()
@@ -71,6 +99,7 @@ class Warehouse_window(QWidget):
         left_layout.addWidget(self.reor_input_left)
 
         left_layout.addWidget(self.button_get_A)
+        
 
         #правый
         right_layout = QVBoxLayout()
