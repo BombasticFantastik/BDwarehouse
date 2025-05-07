@@ -9,10 +9,11 @@ from sqlalchemy.orm import declarative_base
 
 
 engine=create_engine('postgresql+psycopg2://postgres:12345@localhost/Norwind')
-engine.connect()
+connection=engine.connect()
+
 #metadata = MetaData()
 
 app = QApplication(sys.argv)
-window = Warehouse_window(engine)
+window = Warehouse_window(connection)
 window.show()
 sys.exit(app.exec())

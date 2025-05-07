@@ -1,12 +1,12 @@
 import sys
 
 from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,QLineEdit,QTableWidget
-from sqlalchemy import create_engine,Column,Integer,String,Float,Table,MetaData,insert,delete,update
+from sqlalchemy import create_engine,Column,Integer,String,Float,Table,MetaData,insert,delete,update,text
 
 class Warehouse_window(QWidget):
-    def __init__(self,engine):
+    def __init__(self,connection):
         super().__init__()
-        self.engine=engine
+        self.connection=connection
         self.setWindowTitle("Warehouse")
         #self.setGeometry(256, 256, 512, 256)
         self.setFixedSize(1280,500)
@@ -50,9 +50,9 @@ class Warehouse_window(QWidget):
         self.disc_input_right=QLineEdit()
 
         #Добавить/Удалить/Найти
-        self.button_get_A = QPushButton("Добавить", self)
-        self.button_get_B = QPushButton("Удалить", self)
-        self.select_button=QPushButton('Выбрать',self)
+        self.button_Add = QPushButton("Добавить", self)
+        self.button_Remove = QPushButton("Удалить", self)
+        self.button_Select=QPushButton('Выбрать',self)
 
         #задаём размеры
 
@@ -98,7 +98,7 @@ class Warehouse_window(QWidget):
         left_layout.addWidget(self.reor_label_left)
         left_layout.addWidget(self.reor_input_left)
 
-        left_layout.addWidget(self.button_get_A)
+        left_layout.addWidget(self.button_Add)
         
 
         #правый
@@ -118,13 +118,18 @@ class Warehouse_window(QWidget):
         right_layout.addWidget(self.disc_label_right)
         right_layout.addWidget(self.disc_input_right)
 
-        right_layout.addWidget(self.button_get_B)
+        right_layout.addWidget(self.button_Remove)
 
         #table
         table_layout = QVBoxLayout()
         table_layout.addWidget(self.table)
 
-        table_layout.addWidget(self.select_button)
+        table_layout.addWidget(self.button_Select)
+
+        #кнопки
+        self.button_Add.clicked.connect(self.add)
+        self.button_Remove.clicked.connect(self.remove)
+        self.button_Select.clicked.connect(self.select)
 
 
         main_layout = QHBoxLayout()
@@ -134,8 +139,9 @@ class Warehouse_window(QWidget):
         self.setLayout(main_layout)
 
     def add(self):
-        self.engine.execute(f"INSERT INTO products VALUES ({self.id_input.text},{self.g_input.text},{self.a_input.text},{self.b_input.text},{self.A_input.text},{self.B_input.text},{self.K_input_left.text},{self.K_input_right.text})")
-    def delete(self):
-        self.engine.execute(f"DELETE FROM products WHERE id={self.id.text}")
+        self.connection.execute(f"INSERT INTO products VALUES ({self.id_input.text},{self.g_input.text},{self.a_input.text},{self.b_input.text},{self.A_input.text},{self.B_input.text},{self.K_input_left.text},{self.K_input_right.text})")
+    def remove(self):
+        self.connection.execute(f"DELETE FROM products WHERE product_id={self.id_input.text}")
     def select(self):
-        self.engine.execute(f"")
+        a=self.connection.execute(text('SELECT * FROM products'))
+        print(1)
