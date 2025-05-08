@@ -14,7 +14,7 @@ class Warehouse_window(QWidget):
         #table
         self.table = QTableWidget()
         self.table.setFixedSize(1050,387)
-        self.table.setRowCount(50)
+        self.table.setRowCount(100)
         self.table.setColumnCount(10)
         self.table.setHorizontalHeaderLabels([
             'product_id',
@@ -155,10 +155,19 @@ class Warehouse_window(QWidget):
     def remove(self):
         self.connection.execute(f"DELETE FROM products WHERE product_id={self.id_input.text}")
     def select(self):
-        data=self.connection.execute(text('SELECT * FROM products'))
+        command=f"SELECT * FROM products WHERE product_id= {self.id_input.text()} AND product_name LIKE '{self.g_input.text()}%' AND supplier_id= {self.a_input.text()} AND category_id= {self.b_input.text()} AND quantity_per_unit LIKE '{self.A_input.text()}%' AND unit_price= {self.B_input.text()} AND units_in_stock= {self.K_input_left.text()} AND units_on_order= {self.K_input_right.text()} AND reorder_level= {self.reor_input_left.text()} AND discontinued= {self.disc_input_right.text()} "
+        #print('-----')
+        #print(command)
+        command=command.replace('product_id=  ',' ').replace('supplier_id=  ',' ').replace('category_id=  ',' ').replace('unit_price=  ',' ').replace('units_in_stock=  ',' ').replace('units_on_order=  ',' ').replace('reorder_level=  ',' ').replace('discontinued=  ',' ')
+
+        #command=command.replace('WHERE  ',' ')
+        command=command.replace('  AND','').replace('AND  ','')
+        print(command)
+        data=self.connection.execute(text(command))
         self.show_table(data)
         
     def show_table(self,data):
+        self.table.clear()
         data=[row for row in data]
         for i in range(len(data)):
             prod_id=QTableWidgetItem(str(data[i].product_id))
