@@ -151,7 +151,7 @@ class Warehouse_window(QWidget):
         self.setLayout(main_layout)
 
     def add(self):
-        self.connection.execute(f"INSERT INTO products VALUES ({self.id_input.text},{self.g_input.text},{self.a_input.text},{self.b_input.text},{self.A_input.text},{self.B_input.text},{self.K_input_left.text},{self.K_input_right.text})")
+        self.connection.execute(text(f"INSERT INTO products VALUES ({self.id_input.text()},'{self.g_input.text()}',{self.a_input.text()},{self.b_input.text()},'{self.A_input.text()}',{self.B_input.text()},{self.K_input_left.text()},{self.K_input_right.text()},{self.reor_input_left.text()},{self.disc_input_right.text()})"))
     def remove(self):
         self.connection.execute(f"DELETE FROM products WHERE product_id={self.id_input.text}")
     def select(self):
