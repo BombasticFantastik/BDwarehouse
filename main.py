@@ -11,6 +11,7 @@ from sqlalchemy.orm import declarative_base
 engine=create_engine('postgresql+psycopg2://postgres:12345@localhost/Norwind')
 connection=engine.connect()
 
+
 #metadata = MetaData()
 
 app = QApplication(sys.argv)

@@ -13,21 +13,11 @@ class Warehouse_window(QWidget):
 
         #table
         self.table = QTableWidget()
-        self.table.setFixedSize(1050,387)
+        self.table.setFixedSize(1060,387)
         self.table.setRowCount(100)
         self.table.setColumnCount(10)
-        self.table.setHorizontalHeaderLabels([
-            'product_id',
-            'product_name',
-            'supplier_id',
-            'category_id',
-            'quantity_per_unit',
-            'unit_price',
-            'units_in_stock',
-            'units_on_order',
-            'reorder_level',
-            'discontinued'
-        ])
+        self.get_names()
+
 
         #id/name
 
@@ -150,19 +140,37 @@ class Warehouse_window(QWidget):
         main_layout.addLayout(table_layout)
         self.setLayout(main_layout)
 
+    def get_names(self):
+            self.table.setHorizontalHeaderLabels([
+            'product_id',
+            'product_name',
+            'supplier_id',
+            'category_id',
+            'quantity_per_unit',
+            'unit_price',
+            'units_in_stock',
+            'units_on_order',
+            'reorder_level',
+            'discontinued'
+        ])
+
     def add(self):
         self.connection.execute(text(f"INSERT INTO products VALUES ({self.id_input.text()},'{self.g_input.text()}',{self.a_input.text()},{self.b_input.text()},'{self.A_input.text()}',{self.B_input.text()},{self.K_input_left.text()},{self.K_input_right.text()},{self.reor_input_left.text()},{self.disc_input_right.text()})"))
+        self.connection.commit()
+        self.select()
+        
     def remove(self):
-        self.connection.execute(f"DELETE FROM products WHERE product_id={self.id_input.text}")
+        self.connection.execute(text(f"DELETE FROM products WHERE product_id={self.id_input.text()}"))
+        self.id_input.setText('')
+        self.connection.commit()
+        self.select()
     def select(self):
         command=f"SELECT * FROM products WHERE product_id= {self.id_input.text()} AND product_name LIKE '{self.g_input.text()}%' AND supplier_id= {self.a_input.text()} AND category_id= {self.b_input.text()} AND quantity_per_unit LIKE '{self.A_input.text()}%' AND unit_price= {self.B_input.text()} AND units_in_stock= {self.K_input_left.text()} AND units_on_order= {self.K_input_right.text()} AND reorder_level= {self.reor_input_left.text()} AND discontinued= {self.disc_input_right.text()} "
-        #print('-----')
-        #print(command)
+
         command=command.replace('product_id=  ',' ').replace('supplier_id=  ',' ').replace('category_id=  ',' ').replace('unit_price=  ',' ').replace('units_in_stock=  ',' ').replace('units_on_order=  ',' ').replace('reorder_level=  ',' ').replace('discontinued=  ',' ')
 
-        #command=command.replace('WHERE  ',' ')
         command=command.replace('  AND','').replace('AND  ','')
-        print(command)
+       
         data=self.connection.execute(text(command))
         self.show_table(data)
         
@@ -193,5 +201,6 @@ class Warehouse_window(QWidget):
             self.table.setItem(i,9,disc)
 
         self.table.show()
+        self.get_names()
             
 
