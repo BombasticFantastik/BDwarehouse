@@ -5,10 +5,14 @@ from Interface import Warehouse_window
 import sys
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import declarative_base
+import yaml
+
+option_path='config.yaml'
+with open(option_path,'r') as file_option:
+    option=yaml.safe_load(file_option)
 
 
-
-engine=create_engine('postgresql+psycopg2://postgres:12345@localhost/Norwind')
+engine=create_engine(option['path'])
 connection=engine.connect()
 
 
