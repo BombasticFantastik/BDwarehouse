@@ -8,7 +8,6 @@ class Warehouse_window(QWidget):
         super().__init__()
         self.connection=connection
         self.setWindowTitle("Warehouse")
-        #self.setGeometry(256, 256, 512, 256)
         self.setFixedSize(1280,500)
 
         #table
